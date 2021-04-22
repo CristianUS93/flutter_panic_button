@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_panic_button/pages/home_page.dart';
+import 'package:flutter_panic_button/pages/recuperar_password.dart';
 import 'package:flutter_panic_button/pages/registro_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -118,7 +120,9 @@ class _LoginPageState extends State<LoginPage> {
                           ],
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>RecuperarPassword()));
+                          },
                           child: Text(
                             "Olvidaste tu contraseña?",
                             style: TextStyle(
@@ -135,7 +139,9 @@ class _LoginPageState extends State<LoginPage> {
                                 borderRadius: BorderRadius.circular(20),
                               )
                           ),
-                          onPressed: (){},
+                          onPressed: (){
+                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomePage()), (route) => false);
+                          },
                           child: Text("Ingresar",
                             style: TextStyle(
                                 color: Colors.red,

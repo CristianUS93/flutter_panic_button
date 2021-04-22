@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_panic_button/pages/home_page.dart';
+import 'package:flutter_panic_button/utils.dart';
 
 class RegistroPage extends StatelessWidget {
   @override
@@ -12,6 +14,7 @@ class RegistroPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset("assets/images/button_image.png"),
+              SizedBox(height: 20,),
               Text("REGISTRO",
                 style: TextStyle(
                   color: Colors.red,
@@ -72,7 +75,9 @@ class RegistroPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomePage()), (route) => false);
+                  },
                   child: Text("REGISTRAME",
                     style: TextStyle(
                         color: Colors.white,
@@ -84,28 +89,6 @@ class RegistroPage extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class FieldRegistro extends StatelessWidget {
-  String name;
-  IconData icon;
-
-  FieldRegistro(this.name, this.icon,);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      cursorColor: Colors.grey,
-      decoration: InputDecoration(
-        icon: Icon(icon, color: Colors.grey,),
-        border: InputBorder.none,
-        hintText: name,
-        hintStyle: TextStyle(
-          color: Colors.red.withOpacity(0.5),
         ),
       ),
     );
