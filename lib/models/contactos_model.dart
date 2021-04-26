@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_panic_button/pages/contactos/perfil_contacto.dart';
 
 class ContactosModel extends StatefulWidget {
   const ContactosModel({
@@ -28,7 +29,7 @@ class _ContactosModelState extends State<ContactosModel> {
                   color: Colors.red,
                 ),
               ),
-              Text("$cantContactos contactos",
+              Text("$cantContactos contactos seleccionados",
                 style: TextStyle(
                   fontSize: 15,
                   color: Colors.red.withOpacity(0.5),
@@ -51,61 +52,124 @@ class _ContactosModelState extends State<ContactosModel> {
                   ),
                 ),
               ),
-              ListTile(
-                leading: Icon(Icons.person, size: 30,),
-                title: Text("Nombre del Contacto",
-                  style: TextStyle(
-                    color: Colors.red.shade300,
-                    fontSize: 20,
-                  ),
+              Container(
+                height: 410,
+                child: ListView(
+                  children: [
+                    ListTile(
+                      leading: Icon(Icons.person, size: 30,),
+                      title: Text("Nombre del Contacto",
+                        style: TextStyle(
+                          color: Colors.red.shade300,
+                          fontSize: 20,
+                        ),
+                      ),
+                      subtitle: Divider(
+                        thickness: 1.5,
+                        color: Colors.red.shade300,
+                      ),
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>PerfilContacto()));
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.person, size: 30,),
+                      title: Text("Nombre del Contacto",
+                        style: TextStyle(
+                          color: Colors.red.shade300,
+                          fontSize: 20,
+                        ),
+                      ),
+                      subtitle: Divider(
+                        thickness: 1.5,
+                        color: Colors.red.shade300,
+                      ),
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>PerfilContacto()));
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.person, size: 30,),
+                      title: Text("Nombre del Contacto",
+                        style: TextStyle(
+                          color: Colors.red.shade300,
+                          fontSize: 20,
+                        ),
+                      ),
+                      subtitle: Divider(
+                        thickness: 1.5,
+                        color: Colors.red.shade300,
+                      ),
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>PerfilContacto()));
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.person, size: 30,),
+                      title: Text("Nombre del Contacto",
+                        style: TextStyle(
+                          color: Colors.red.shade300,
+                          fontSize: 20,
+                        ),
+                      ),
+                      subtitle: Divider(
+                        thickness: 1.5,
+                        color: Colors.red.shade300,
+                      ),
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>PerfilContacto()));
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.person, size: 30,),
+                      title: Text("Nombre del Contacto",
+                        style: TextStyle(
+                          color: Colors.red.shade300,
+                          fontSize: 20,
+                        ),
+                      ),
+                      subtitle: Divider(
+                        thickness: 1.5,
+                        color: Colors.red.shade300,
+                      ),
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>PerfilContacto()));
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.person, size: 30,),
+                      title: Text("Nombre del Contacto",
+                        style: TextStyle(
+                          color: Colors.red.shade300,
+                          fontSize: 20,
+                        ),
+                      ),
+                      subtitle: Divider(
+                        thickness: 1.5,
+                        color: Colors.red.shade300,
+                      ),
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>PerfilContacto()));
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.person, size: 30,),
+                      title: Text("Nombre del Contacto",
+                        style: TextStyle(
+                          color: Colors.red.shade300,
+                          fontSize: 20,
+                        ),
+                      ),
+                      subtitle: Divider(
+                        thickness: 1.5,
+                        color: Colors.red.shade300,
+                      ),
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>PerfilContacto()));
+                      },
+                    ),
+                  ],
                 ),
-                subtitle: Divider(
-                  thickness: 1.5,
-                  color: Colors.red.shade300,
-                ),
-                onTap: (){},
-              ),
-              ListTile(
-                leading: Icon(Icons.person, size: 30,),
-                title: Text("Nombre del Contacto",
-                  style: TextStyle(
-                    color: Colors.red.shade300,
-                    fontSize: 20,
-                  ),
-                ),
-                subtitle: Divider(
-                  thickness: 1.5,
-                  color: Colors.red.shade300,
-                ),
-                onTap: (){},
-              ),
-              ListTile(
-                leading: Icon(Icons.person, size: 30,),
-                title: Text("Nombre del Contacto",
-                  style: TextStyle(
-                    color: Colors.red.shade300,
-                    fontSize: 20,
-                  ),
-                ),
-                subtitle: Divider(
-                  thickness: 1.5,
-                  color: Colors.red.shade300,
-                ),
-                onTap: (){},
-              ),
-              ListTile(
-                leading: Icon(Icons.person, size: 30,),
-                title: Text("Nombre del Contacto",
-                  style: TextStyle(
-                    color: Colors.red.shade300,
-                    fontSize: 20,
-                  ),
-                ),
-                subtitle: Divider(
-                  thickness: 1.5,
-                  color: Colors.red.shade300,
-                ),
-                onTap: (){},
               ),
             ],
           ),

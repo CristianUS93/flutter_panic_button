@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_panic_button/pages/home_page.dart';
-import 'package:flutter_panic_button/pages/recuperar_password.dart';
-import 'package:flutter_panic_button/pages/registro_page.dart';
+import 'file:///D:/01.FLUTTER/flutter_panic_button/lib/home_page.dart';
+import 'file:///D:/01.FLUTTER/flutter_panic_button/lib/pages/recuperar_pswd/recuperar_password.dart';
+import 'file:///D:/01.FLUTTER/flutter_panic_button/lib/pages/registro/registro_page.dart';
 
 class LoginPage extends StatefulWidget {
   String title;
@@ -13,6 +13,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool recuerdame = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,13 +109,17 @@ class _LoginPageState extends State<LoginPage> {
                         Row(
                           children: [
                             IconButton(
-                              icon: Icon(Icons.check_circle_outline),
-                              onPressed: () {},
+                              icon: recuerdame == false ? Icon(Icons.check_circle_outline, color: Colors.red.shade300,)
+                              : Icon(Icons.check_circle, color: Colors.red.shade300,),
+                              onPressed: (){
+                                recuerdame = !recuerdame;
+                                setState(() {});
+                              },
                             ),
                             Text(
                               "Recuerdame",
                               style: TextStyle(
-                                color: Colors.red,
+                                color: Colors.red.shade300,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

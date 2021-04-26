@@ -1,8 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_panic_button/pages/home_page.dart';
-import 'package:flutter_panic_button/utils.dart';
+import 'file:///D:/01.FLUTTER/flutter_panic_button/lib/pages/recuperar_pswd/confirmar_cambio_password.dart';
+import 'file:///D:/01.FLUTTER/flutter_panic_button/lib/utils/utils.dart';
 
-class ConfimarCambio extends StatelessWidget {
+class RecuperarPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +30,17 @@ class ConfimarCambio extends StatelessWidget {
                   padding: EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      FieldRegistro("PIN de seguridad", Icons.lock_rounded),
+                      FieldRegistro("Correo", Icons.email),
+                      Divider(
+                        thickness: 2,
+                        color: Colors.red.withOpacity(0.5),
+                      ),
+                      FieldRegistro("Nueva Contraseña", Icons.lock_rounded),
+                      Divider(
+                        thickness: 2,
+                        color: Colors.red.withOpacity(0.5),
+                      ),
+                      FieldRegistro("Confirmar Contraseña", Icons.lock_rounded),
                       Divider(
                         thickness: 2,
                         color: Colors.red.withOpacity(0.5),
@@ -37,7 +48,6 @@ class ConfimarCambio extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 20,),
                 Center(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -47,9 +57,9 @@ class ConfimarCambio extends StatelessWidget {
                       ),
                     ),
                     onPressed: (){
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomePage()), (route) => false);
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ConfimarCambio()));
                     },
-                    child: Text("CONFIRMAR",
+                    child: Text("SOLICITAR CAMBIO",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
