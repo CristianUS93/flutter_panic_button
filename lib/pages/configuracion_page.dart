@@ -20,36 +20,33 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Configuracion"),
+        title: Text("Botón de Pánico"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Configuración",
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.w900,
-                color: Colors.red,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Configuración",
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.red,
+                ),
               ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 20),
-              padding: EdgeInsets.all(10),
-              height: 470,
-              color: Colors.grey.shade300,
-              child: Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SwitchListTile(
                     title: Text("Activar Cámara",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        fontSize: 18,
                       ),
                     ),
-                    subtitle: Text("Apagado"),
+                    subtitle: camara == false ? Text("Desactivado")
+                        : Text("Activado"),
                     value: camara,
                     onChanged: (value){
                       camara = value;
@@ -58,9 +55,19 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                     activeColor: Colors.red,
                     inactiveThumbColor: Colors.red,
                   ),
+                  Container(
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text('"Activar Cámara" te permite grabar lo que está sucediendo mientras tengas el "Botón de Pánico", "Modo Rastreo" o "Cronómetro" activado.',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ),
                   Divider(
                     thickness: 1.5,
-                    color: Colors.red.shade200,
+                    color: Colors.red.shade100,
                   ),
                   Container(
                     padding: EdgeInsets.only(top: 20, right: 10, left: 10),
@@ -69,7 +76,7 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                       children: [
                         Text("Contactos de confianza",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -94,10 +101,19 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                       setState(() {});
                     },
                   ),
-                  SizedBox(height: 10,),
+                  Container(
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text('Selecione la cantidad de contactos que recibirán las notificaciones mientras tengas el "Botón de Pánico", "Modo Rastreo" o "Cronómetro" activado.',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ),
                   Divider(
                     thickness: 1.5,
-                    color: Colors.red.shade200,
+                    color: Colors.red.shade100,
                   ),
                   Container(
                     padding: EdgeInsets.only(top: 20, right: 10, left: 10),
@@ -106,7 +122,7 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                       children: [
                         Text("Tipo de Notificación",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -153,7 +169,7 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                   SizedBox(height: 5,),
                   Divider(
                     thickness: 1.5,
-                    color: Colors.red.shade200,
+                    color: Colors.red.shade100,
                   ),
                   Container(
                     padding: EdgeInsets.only(top: 20, right: 10, left: 10),
@@ -165,7 +181,7 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                           children: [
                             Text("Intervalo de Notificación",
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -177,9 +193,9 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                             ),
                           ],
                         ),
-                        Text(tiempoNotificacion.toString(),
+                        Text("$tiempoNotificacion min",
                           style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         )
@@ -198,28 +214,43 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                       setState(() {});
                     },
                   ),
+                  Container(
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text('Configure el tiempo que transcurrirá entre cada notificación que se enviará a sus contactos de confianza con su ubicación.',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                  Divider(
+                    thickness: 1.5,
+                    color: Colors.red.shade100,
+                  ),
                 ],
               ),
-            ),
-            Center(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
+              Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     primary: Colors.red,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
-                    )
-                ),
-                onPressed: (){},
-                child: Text("GUARDAR",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  onPressed: (){},
+                  child: Text("GUARDAR",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

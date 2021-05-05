@@ -25,54 +25,60 @@ class _DependenciasModelState extends State<DependenciasModel> {
                   color: Colors.red,
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Me encuentro",
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    width: 120,
-                    height: 35,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.grey.shade300,
-                    ),
-                    child: TextField(
-                      cursorColor: Colors.red.shade300,
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration(
-                        hintText: "Ubicación",
-                        hintStyle: TextStyle(
-                          color: Colors.red.shade300,
-                          fontSize: 15,
-                        ),
-                        border: InputBorder.none,
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Me encuentro",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.location_on_rounded),
-                    iconSize: 40,
-                    color: Colors.red.shade300,
-                    splashRadius: 30,
-                    onPressed: (){
-                      setState(() {
-                        print("ubicacion");
-                      });
-                    },
-                  ),
-                ],
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      width: 120,
+                      height: 35,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.grey.shade300,
+                      ),
+                      child: TextField(
+                        cursorColor: Colors.red.shade300,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          hintText: "Ubicación",
+                          hintStyle: TextStyle(
+                            color: Colors.red.shade300,
+                            fontSize: 15,
+                          ),
+                          border: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.location_on_rounded),
+                      iconSize: 40,
+                      color: Colors.red.shade300,
+                      splashRadius: 30,
+                      onPressed: (){
+                        setState(() {
+                          print("ubicacion");
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 20),
                 padding: EdgeInsets.all(15),
                 height: 420,
-                color: Colors.grey.shade300,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

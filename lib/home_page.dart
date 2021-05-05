@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_panic_button/models/burger_menu_model.dart';
-import 'file:///D:/01.FLUTTER/flutter_panic_button/lib/pages/configuracion_page.dart';
-import 'package:flutter_panic_button/models/contactos_model.dart';
-import 'package:flutter_panic_button/models/cronometro_model.dart';
-import 'package:flutter_panic_button/models/dependencias_model.dart';
-import 'package:flutter_panic_button/models/home_model.dart';
+import 'package:flutter_panic_button/menu-models/burger_menu_model.dart';
+import 'package:flutter_panic_button/menu-models/contactos_model.dart';
+import 'package:flutter_panic_button/menu-models/cronometro_model.dart';
+import 'package:flutter_panic_button/menu-models/dependencias_model.dart';
+import 'package:flutter_panic_button/menu-models/home_model.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -36,7 +35,7 @@ class _HomePageState extends State<HomePage> {
         title: Text("Botón del Pánico",
           style: TextStyle(
             color: Colors.white,
-            fontSize: 25,
+            fontSize: 20,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -68,11 +67,12 @@ class _HomePageState extends State<HomePage> {
             label: "Cronómetro",
           ),
         ],
-        iconSize: 50,
+        iconSize: 40,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white.withOpacity(0.5),
         currentIndex: selectIndex,
         onTap: _onItemTap,
+        elevation: 10,
       )
     );
   }

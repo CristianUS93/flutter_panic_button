@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_panic_button/login.dart';
-import 'package:flutter_panic_button/models/contactos_model.dart';
-import 'package:flutter_panic_button/models/cronometro_model.dart';
-import 'package:flutter_panic_button/models/dependencias_model.dart';
+import 'package:flutter_panic_button/menu-models/cronometro_model.dart';
+import 'package:flutter_panic_button/menu-models/dependencias_model.dart';
 import 'package:flutter_panic_button/pages/configuracion_page.dart';
 import 'package:flutter_panic_button/pages/info_page.dart';
+import 'package:flutter_panic_button/pages/lugares_frecuentes_page.dart';
+import 'package:flutter_panic_button/pages/mi_perfil_page.dart';
+import 'package:flutter_panic_button/utils/drawer_menu_button.dart';
 
 class MenuBurger extends StatelessWidget {
   @override
@@ -27,7 +29,8 @@ class MenuBurger extends StatelessWidget {
                 ),
                 backgroundColor: Colors.red.shade100,
               )),
-          MenuButton(Icons.supervised_user_circle, "Contactos Seguros", ContactosModel()),
+          MenuButton(Icons.person, "Mi Perfil", MiPerfilPage()),
+          MenuButton(Icons.place_sharp, "Lugares Frecuentes", LugaresFrecuentesPage()),
           MenuButton(Icons.timer, "Cronómetro", CronometroModel()),
           MenuButton(Icons.security, "Dependencias", DependenciasModel()),
           Divider(thickness: 1.5,),
@@ -40,29 +43,3 @@ class MenuBurger extends StatelessWidget {
   }
 }
 
-class MenuButton extends StatelessWidget {
-  IconData icon;
-  String name;
-  Widget pageRoute;
-  MenuButton(this.icon, this.name, this.pageRoute);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(
-        icon,
-        size: 30,
-      ),
-      title: Text(
-        name,
-        style: TextStyle(
-          fontSize: 20,
-          color: Colors.grey,
-        ),
-      ),
-      onTap: (){
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (c)=>pageRoute), (route) => true);
-      },
-    );
-  }
-}

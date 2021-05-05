@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'file:///D:/01.FLUTTER/flutter_panic_button/lib/home_page.dart';
-import 'file:///D:/01.FLUTTER/flutter_panic_button/lib/utils/utils.dart';
+import 'file:///D:/01.FLUTTER/flutter_panic_button/lib/utils/textfield_utils.dart';
 
 class ConfimarCambio extends StatelessWidget {
   @override
@@ -30,10 +30,6 @@ class ConfimarCambio extends StatelessWidget {
                   child: Column(
                     children: [
                       FieldRegistro("PIN de seguridad", Icons.lock_rounded),
-                      Divider(
-                        thickness: 2,
-                        color: Colors.red.withOpacity(0.5),
-                      ),
                     ],
                   ),
                 ),
@@ -41,6 +37,7 @@ class ConfimarCambio extends StatelessWidget {
                 Center(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       primary: Colors.red,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_panic_button/pages/contactos/editar_contacto.dart';
 
 class PerfilContacto extends StatefulWidget {
   @override
@@ -107,7 +108,9 @@ class _PerfilContactoState extends State<PerfilContacto> {
                       IconButton(
                         icon: Icon(Icons.edit, color: Colors.red.shade100,),
                         iconSize: 35,
-                        onPressed: (){},
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>EditContactPage()));
+                        },
                         padding: EdgeInsets.all(0),
                       ),
                       Text("Editar",

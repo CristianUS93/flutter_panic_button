@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'file:///D:/01.FLUTTER/flutter_panic_button/lib/home_page.dart';
 import 'file:///D:/01.FLUTTER/flutter_panic_button/lib/pages/recuperar_pswd/recuperar_password.dart';
-import 'file:///D:/01.FLUTTER/flutter_panic_button/lib/pages/registro/registro_page.dart';
+import 'package:flutter_panic_button/pages/registro_page.dart';
 
 class LoginPage extends StatefulWidget {
   String title;
@@ -14,6 +14,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool recuerdame = false;
+  bool ocultarPassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +26,14 @@ class _LoginPageState extends State<LoginPage> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(height: 400,),
+                  Container(height: 440,),
                   Container(
-                    height: 390,
+                    height: 350,
                     decoration: BoxDecoration(
                       color: Colors.red,
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(50),
-                        topRight: Radius.circular(50),
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
                       ),
                     ),
                   ),
@@ -47,15 +48,22 @@ class _LoginPageState extends State<LoginPage> {
                   //Login Container
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 40),
-                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
                     decoration: BoxDecoration(
                       color: Colors.grey.shade300,
                       borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          blurRadius: 10,
+                          offset: Offset(10,10),
+                        ),
+                      ],
                     ),
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          padding: const EdgeInsets.only(bottom: 20),
                           child: Text(
                             "Login",
                             style: TextStyle(
@@ -94,6 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           child: TextFormField(
                             cursorColor: Colors.grey,
+                            obscureText: ocultarPassword,
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               icon: Icon(Icons.lock,
@@ -102,6 +111,14 @@ class _LoginPageState extends State<LoginPage> {
                               hintText: "Contraseña",
                               hintStyle: TextStyle(
                                 color: Colors.grey,
+                              ),
+                              suffixIcon: GestureDetector(
+                                child: ocultarPassword == true ? Icon(Icons.remove_red_eye_outlined, color: Colors.grey,)
+                                : Icon(Icons.remove_red_eye, color: Colors.grey,),
+                                onTap: (){
+                                  ocultarPassword = !ocultarPassword;
+                                  setState(() {});
+                                },
                               ),
                             ),
                           ),
@@ -140,23 +157,23 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              )
+                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            elevation: 5,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                           ),
                           onPressed: (){
                             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomePage()), (route) => false);
                           },
                           child: Text("Ingresar",
                             style: TextStyle(
-                                color: Colors.red,
+                                color: Colors.white,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold
                             ),
                           ),
                         ),
-                        SizedBox(height: 20,)
                       ],
                     ),
                   ),
@@ -189,6 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
+                        onTap: (){},
                         child: Container(
                           padding: EdgeInsets.all(10),
                           height: 60,
@@ -204,13 +222,14 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       SizedBox(width: 50,),
                       GestureDetector(
+                        onTap: (){},
                         child: Container(
                           padding: EdgeInsets.all(10),
                           height: 60,
                           width: 60,
                           decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(30)
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(30),
                           ),
                           child: Image.asset("assets/images/google.png",
                             color: Colors.red,

@@ -125,6 +125,7 @@ class _CronometroModelState extends State<CronometroModel> {
                       child: TextField(
                         cursorColor: Colors.red.shade300,
                         textAlign: TextAlign.center,
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           hintText: "00",
                           hintStyle: TextStyle(
@@ -152,6 +153,7 @@ class _CronometroModelState extends State<CronometroModel> {
                       child: TextField(
                         cursorColor: Colors.red.shade300,
                         textAlign: TextAlign.center,
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           hintText: "00",
                           hintStyle: TextStyle(
@@ -174,7 +176,10 @@ class _CronometroModelState extends State<CronometroModel> {
                   margin: EdgeInsets.only(top: 20),
                   padding: EdgeInsets.all(15),
                   height: 300,
-                  color: Colors.grey.shade300,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
