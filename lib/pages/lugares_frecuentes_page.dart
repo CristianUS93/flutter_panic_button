@@ -10,7 +10,6 @@ class LugaresFrecuentesPage extends StatefulWidget {
 class _LugaresFrecuentesPageState extends State<LugaresFrecuentesPage> {
 
   ShowAlertDialog(BuildContext context){
-
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -21,25 +20,23 @@ class _LugaresFrecuentesPageState extends State<LugaresFrecuentesPage> {
         ),
       ),
       content: Container(
-        height: 200,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Text("Ubicación"),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              margin: EdgeInsets.symmetric(vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 15),
               decoration: BoxDecoration(
                 color: Color(0xffd3d3d3),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(15),
               ),
               child: TextField(
                 cursorColor: Colors.red.shade300,
                 textAlign: TextAlign.left,
                 decoration: InputDecoration(
-                  hintText: "Ingrese la ubicación",
-                  hintStyle: TextStyle(
+                  labelText: "Ingrese la ubicación",
+                  labelStyle: TextStyle(
                     color: Color(0xff808080),
                     fontSize: 15,
                   ),
@@ -48,20 +45,18 @@ class _LugaresFrecuentesPageState extends State<LugaresFrecuentesPage> {
               ),
             ),
             SizedBox(height: 20,),
-            Text("Se guardará como"),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              margin: EdgeInsets.symmetric(vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 15),
               decoration: BoxDecoration(
                 color: Color(0xffd3d3d3),
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(15),
               ),
               child: TextField(
                 cursorColor: Colors.red.shade300,
                 textAlign: TextAlign.left,
                 decoration: InputDecoration(
-                  hintText: "Ingrese el nombre",
-                  hintStyle: TextStyle(
+                  labelText: "Ingrese el nombre",
+                  labelStyle: TextStyle(
                     color: Color(0xff808080),
                     fontSize: 15,
                   ),

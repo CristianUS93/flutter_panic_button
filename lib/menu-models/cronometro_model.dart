@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_panic_button/pages/contactos/perfil_contacto.dart';
 
 class CronometroModel extends StatefulWidget {
   @override
@@ -8,6 +7,7 @@ class CronometroModel extends StatefulWidget {
 }
 
 class _CronometroModelState extends State<CronometroModel> {
+  bool iniciar = false;
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +175,7 @@ class _CronometroModelState extends State<CronometroModel> {
                 Container(
                   margin: EdgeInsets.only(top: 20),
                   padding: EdgeInsets.all(15),
-                  height: 300,
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.grey.shade300,
                     borderRadius: BorderRadius.circular(20),
@@ -193,73 +193,48 @@ class _CronometroModelState extends State<CronometroModel> {
                         ),
                       ),
                       //Lista de contactos
-                      Container(
-                          height: 220,
-                          child: ListView(
-                            children: [
-                              ListTile(
-                                leading: Icon(Icons.person, size: 30,),
-                                title: Text("Contacto 1",
-                                  style: TextStyle(
-                                    color: Colors.red.shade300,
-                                    fontSize: 17,
-                                  ),
-                                ),
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>PerfilContacto()));
-                                },
-                              ),
-                              ListTile(
-                                leading: Icon(Icons.person, size: 30,),
-                                title: Text("Contacto 2",
-                                  style: TextStyle(
-                                    color: Colors.red.shade300,
-                                    fontSize: 17,
-                                  ),
-                                ),
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>PerfilContacto()));
-                                },
-                              ),
-                              ListTile(
-                                leading: Icon(Icons.person, size: 30,),
-                                title: Text("Contacto 3",
-                                  style: TextStyle(
-                                    color: Colors.red.shade300,
-                                    fontSize: 17,
-                                  ),
-                                ),
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>PerfilContacto()));
-                                },
-                              ),
-                              ListTile(
-                                leading: Icon(Icons.person, size: 30,),
-                                title: Text("Contacto 4",
-                                  style: TextStyle(
-                                    color: Colors.red.shade300,
-                                    fontSize: 17,
-                                  ),
-                                ),
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>PerfilContacto()));
-                                },
-                              ),
-                            ],
-                          )
-                      )
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text("Contacto 1",
+                              style: TextStyle(fontSize: 18, color: Colors.red.shade300),
+                            ),
+                            Text("Contacto 2",
+                              style: TextStyle(fontSize: 18, color: Colors.red.shade300),
+                            ),
+                            Text("Contacto 3",
+                              style: TextStyle(fontSize: 18, color: Colors.red.shade300),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Row(
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       GestureDetector(
-                        child: Icon(Icons.play_circle_fill, size: 60, color: Colors.red,),
-                        onTap: (){},
+                        child: Column(
+                          children: [
+                            iniciar==false
+                                ? Icon(Icons.play_circle_fill, size: 100, color: Colors.red,)
+                                : Icon(Icons.pause_circle_filled, size: 100, color: Colors.red,),
+                            iniciar==false
+                                ? Text("Iniciar", style: TextStyle(color: Colors.grey.shade500, fontSize: 25),)
+                                : Text("Detener", style: TextStyle(color: Colors.grey.shade500, fontSize: 25),),
+                          ],
+                        ),
+                        onTap: (){
+                          iniciar = !iniciar;
+                          setState(() {});
+                        },
                       ),
+                      SizedBox(height: 20,),
                       Text("00:00:00",
                         style: TextStyle(
                           color: Colors.red.shade200,

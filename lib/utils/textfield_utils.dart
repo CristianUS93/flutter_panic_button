@@ -16,10 +16,10 @@ class FieldRegistro extends StatelessWidget {
         TextFormField(
           cursorColor: Colors.grey,
           decoration: InputDecoration(
-            icon: Icon(icon, color: Colors.grey,),
+            icon: Icon(icon, color: Colors.red.withOpacity(0.5),),
             border: InputBorder.none,
-            hintText: name,
-            hintStyle: TextStyle(
+            labelText: name,
+            labelStyle: TextStyle(
               color: Colors.red.withOpacity(0.5),
             ),
           ),

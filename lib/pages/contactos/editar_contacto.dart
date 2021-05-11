@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_panic_button/utils/textfield_utils.dart';
 
 class EditContactPage extends StatefulWidget {
   @override
@@ -10,11 +11,18 @@ class _EditContactPageState extends State<EditContactPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
-        leading: Icon(Icons.cancel_rounded,size: 30.0,),
+        leading: IconButton(
+          icon: Icon(Icons.cancel,size: 30.0, color: Colors.white,),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+        ),
         title: Text("Editar Contacto",),
         actions: [
-          Icon(Icons.check),
+          IconButton(
+            icon: Icon(Icons.check, size: 30, color: Colors.white,),
+            onPressed: (){},
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -22,62 +30,50 @@ class _EditContactPageState extends State<EditContactPage> {
           children: [
             Stack(
               children: [
-
-
                 Padding(
-                  padding: const EdgeInsets.only(top: 100.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 120),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20.0),
                       color: Colors.grey.shade300,
                     ),
-
-                    height: 300.0,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 30.0,right: 30.0),
+                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          TextField(
-                            decoration: InputDecoration(
-                              labelText: "Alex Conco",
-                              labelStyle: TextStyle(fontSize: 20.0),
-                              icon: Icon(Icons.person),
-                            ),
-                          ),
-                          TextField(
-                            decoration: InputDecoration(
-                              labelText: "alex76@hotmail.com",
-                              labelStyle: TextStyle(fontSize: 20.0),
-                              icon: Icon(Icons.email),
-                            ),
-                          ),
-                          TextField(
-                            decoration: InputDecoration(
-                              labelText: "555 5555 555",
-
-                              labelStyle: TextStyle(fontSize: 20.0),
-                              icon: Icon(Icons.phone),
-                            ),
-                          ),
+                          SizedBox(height: 30,),
+                          FieldRegistro("Nombre", Icons.person),
+                          SizedBox(height: 10.0,),
+                          FieldRegistro("Correo", Icons.mail),
+                          SizedBox(height: 10.0,),
+                          FieldRegistro("Nro. Celular", Icons.phone),
                         ],
                       ),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 50.0,left: 120.0),
-                  child: Icon(Icons.circle,size: 100.0,),
+                Positioned(
+                  top: 70,
+                  left: 70,
+                  child: CircleAvatar(
+                    child: Text("C", style: TextStyle(fontSize: 40),),
+                    radius: 50,
+                  ),
                 ),
               ],
             ),
-            SizedBox(height: 100.0,),
+            SizedBox(height: 30.0,),
             Container(
               height: 150.0,
-              color: Colors.redAccent,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text("En esta pestaña puedes Editar los datos correctos de tus contactos  de confianza,para que el apoyo se envíe a la persona",style: TextStyle(color: Colors.white70),textAlign: TextAlign.justify,),
+              padding: EdgeInsets.all(20),
+              color: Colors.red,
+              child: Text("En esta pestaña puedes Editar los datos correctos de tus contactos  de confianza, para que el apoyo se envíe a la persona",
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 15,
+                ),
+                textAlign: TextAlign.justify,
               ),
             ),
           ],

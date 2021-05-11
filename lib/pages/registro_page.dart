@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///D:/01.FLUTTER/flutter_panic_button/lib/home_page.dart';
 import 'file:///D:/01.FLUTTER/flutter_panic_button/lib/utils/textfield_utils.dart';
+import 'package:flutter_panic_button/pages/home_page.dart';
 
 class RegistroPage extends StatelessWidget {
   @override

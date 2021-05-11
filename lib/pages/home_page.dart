@@ -5,6 +5,7 @@ import 'package:flutter_panic_button/menu-models/contactos_model.dart';
 import 'package:flutter_panic_button/menu-models/cronometro_model.dart';
 import 'package:flutter_panic_button/menu-models/dependencias_model.dart';
 import 'package:flutter_panic_button/menu-models/home_model.dart';
+import 'package:flutter_panic_button/utils/all_permission_utils.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -14,7 +15,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selectIndex = 0;
-
   List <Widget> pages = [
     HomeModel(),
     ContactosModel(),
@@ -22,10 +22,23 @@ class _HomePageState extends State<HomePage> {
     CronometroModel(),
   ];
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    allPermission.getPermission();
+  }
+
   void _onItemTap (int index){
     setState(() {
       selectIndex = index;
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -41,7 +54,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       drawer: MenuBurger(),
-      body: SafeArea(
+      body: Container(
         child: pages.elementAt(selectIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(

@@ -37,16 +37,16 @@ class _AddContactPageState extends State<AddContactPage> {
                       borderRadius: BorderRadius.circular(20.0),
                       color: Colors.grey.shade300,
                     ),
-                    height: 300.0,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0,),
+                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          SizedBox(height: 30,),
                           FieldRegistro("Nombre", Icons.person),
-                          SizedBox(height: 20.0,),
+                          SizedBox(height: 10.0,),
                           FieldRegistro("Correo", Icons.mail),
-                          SizedBox(height: 20.0,),
+                          SizedBox(height: 10.0,),
                           FieldRegistro("Nro. Celular", Icons.phone),
                         ],
                       ),
@@ -54,8 +54,8 @@ class _AddContactPageState extends State<AddContactPage> {
                   ),
                 ),
                 Positioned(
-                  top: 50,
-                  left: 100,
+                  top: 70,
+                  left: 70,
                   child: CircleAvatar(
                     child: Text("C", style: TextStyle(fontSize: 40),),
                     radius: 50,
@@ -63,7 +63,7 @@ class _AddContactPageState extends State<AddContactPage> {
                 ),
               ],
             ),
-            SizedBox(height: 45.0,),
+            SizedBox(height: 30.0,),
             Container(
               height: 150.0,
               padding: EdgeInsets.all(20),

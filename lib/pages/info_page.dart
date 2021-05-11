@@ -5,13 +5,25 @@ class InfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Información"),
+        title: Text("Botón de Pánico"),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            
-          ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Información",
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+            )
         ),
       ),
     );

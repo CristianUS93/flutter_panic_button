@@ -205,10 +205,10 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                   Slider(
                     value: tiempoNotificacion.toDouble(),
                     min: 0,
-                    max: 5,
+                    max: 10,
                     inactiveColor: Colors.grey,
                     activeColor: Colors.red,
-                    divisions: 5,
+                    divisions: 10,
                     onChanged: (double value){
                       tiempoNotificacion = value.round();
                       setState(() {});

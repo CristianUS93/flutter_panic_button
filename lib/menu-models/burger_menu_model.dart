@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_panic_button/login.dart';
+import 'package:flutter_panic_button/pages/login_page.dart';
 import 'package:flutter_panic_button/menu-models/cronometro_model.dart';
 import 'package:flutter_panic_button/menu-models/dependencias_model.dart';
 import 'package:flutter_panic_button/pages/configuracion_page.dart';
@@ -29,14 +29,14 @@ class MenuBurger extends StatelessWidget {
                 ),
                 backgroundColor: Colors.red.shade100,
               )),
-          MenuButton(Icons.person, "Mi Perfil", MiPerfilPage()),
-          MenuButton(Icons.place_sharp, "Lugares Frecuentes", LugaresFrecuentesPage()),
-          MenuButton(Icons.timer, "Cronómetro", CronometroModel()),
-          MenuButton(Icons.security, "Dependencias", DependenciasModel()),
+          MenuButton(icon: Icons.person, name: "Mi Perfil", pageRoute: MiPerfilPage(),),
+          MenuButton(icon: Icons.place_sharp, name: "Lugares Frecuentes", pageRoute: LugaresFrecuentesPage(),),
+          MenuButton(icon: Icons.timer, name: "Cronómetro",),
+          MenuButton(icon: Icons.security, name: "Dependencias",),
           Divider(thickness: 1.5,),
-          MenuButton(Icons.settings, "Configuración", ConfiguracionPage()),
-          MenuButton(Icons.info_outline, "Información", InfoPage()),
-          MenuButton(Icons.logout, "Cerrar Sesión", LoginPage()),
+          MenuButton(icon: Icons.settings, name: "Configuración", pageRoute: ConfiguracionPage(),),
+          MenuButton(icon: Icons.info_outline, name: "Información", pageRoute: InfoPage(),),
+          MenuButton(icon: Icons.logout, name: "Cerrar Sesión", pageRoute: LoginPage(),),
         ],
       ),
     );

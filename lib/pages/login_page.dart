@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///D:/01.FLUTTER/flutter_panic_button/lib/home_page.dart';
+import 'package:flutter_panic_button/pages/home_page.dart';
 import 'file:///D:/01.FLUTTER/flutter_panic_button/lib/pages/recuperar_pswd/recuperar_password.dart';
 import 'package:flutter_panic_button/pages/registro_page.dart';
 

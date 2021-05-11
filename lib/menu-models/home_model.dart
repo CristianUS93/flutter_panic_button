@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class HomeModel extends StatefulWidget {
   const HomeModel({
@@ -12,9 +13,22 @@ class HomeModel extends StatefulWidget {
 class _HomeModelState extends State<HomeModel> {
   bool rastreo = false;
   bool envioSOS = false;
-  double latitud = -16.429062;
-  double longitud = -71.519715;
+  Position currentPosition;
   int tiempoEnvio = 3;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getCurrentPosition();
+  }
+
+  getCurrentPosition()async{
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    setState(() {
+      currentPosition = position;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +43,7 @@ class _HomeModelState extends State<HomeModel> {
                 onChanged: (value) {
                   rastreo = value;
                   envioSOS = false;
+                  getCurrentPosition();
                   setState(() {});
                 },
                 title: Text("Modo Rastreo",
@@ -108,6 +123,7 @@ class _HomeModelState extends State<HomeModel> {
               onTap: (){
                 envioSOS = !envioSOS;
                 rastreo = false;
+                getCurrentPosition();
                 setState(() {});
               },
             ),
@@ -134,6 +150,7 @@ class _HomeModelState extends State<HomeModel> {
                     ),
                     SizedBox(height: 10,),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("GPS Inicio:",
                           style: TextStyle(
@@ -141,12 +158,26 @@ class _HomeModelState extends State<HomeModel> {
                             fontSize: 18,
                           ),
                         ),
-                        Text(" ${latitud.toStringAsFixed(4)}, ${longitud.toStringAsFixed(4)}",
-                          style: TextStyle(
-                            color: Colors.red.shade300,
-                            fontSize: 18,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Latitud: ${currentPosition.latitude.toStringAsFixed(4)}",
+                                style: TextStyle(
+                                  color: Colors.red.shade300,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              Text("Longitud: ${currentPosition.longitude.toStringAsFixed(4)}",
+                                style: TextStyle(
+                                  color: Colors.red.shade300,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                     SizedBox(height: 10,),
@@ -190,6 +221,7 @@ class _HomeModelState extends State<HomeModel> {
                         color: Colors.grey,
                         fontSize: 15,
                       ),
+                      textAlign: TextAlign.justify,
                     ),
                     SizedBox(height: 10,),
                     Text("Avisar a:",
@@ -232,6 +264,7 @@ class _HomeModelState extends State<HomeModel> {
                     ),
                     SizedBox(height: 10,),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("GPS Inicio:",
                           style: TextStyle(
@@ -239,12 +272,26 @@ class _HomeModelState extends State<HomeModel> {
                               fontSize: 18
                           ),
                         ),
-                        Text(" ${latitud.toStringAsFixed(4)}, ${longitud.toStringAsFixed(4)}",
-                          style: TextStyle(
-                              color: Colors.red.shade300,
-                              fontSize: 18
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Latitud: ${currentPosition.latitude.toStringAsFixed(4)}",
+                                style: TextStyle(
+                                  color: Colors.red.shade300,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              Text("Longitud: ${currentPosition.longitude.toStringAsFixed(4)}",
+                                style: TextStyle(
+                                  color: Colors.red.shade300,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                     SizedBox(height: 10,),

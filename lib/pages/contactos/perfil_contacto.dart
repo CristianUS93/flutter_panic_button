@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_panic_button/pages/contactos/editar_contacto.dart';
 
 class PerfilContacto extends StatefulWidget {
+  String name = "Contacto";
+  String phone = "555 555 555";
+  String mail = "correo@ejemplo.com";
+
+  PerfilContacto({this.name,this.phone,this.mail});
+
   @override
   _PerfilContactoState createState() => _PerfilContactoState();
 }
 
 class _PerfilContactoState extends State<PerfilContacto> {
-  String contacto = "Contacto";
-  String nroTelefono = "555 555 555";
-  String correo = "correo@ejemplo.com";
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +24,15 @@ class _PerfilContactoState extends State<PerfilContacto> {
         child: Column(
           children: [
             Container(
-              height: 250,
+              height: 200,
               width: double.infinity,
               color: Colors.red,
               child: Column(
                 children: [
-                  Icon(Icons.person, size: 150, color: Colors.white,),
-                  Text(contacto,
+                  Icon(Icons.person, size: 100, color: Colors.white,),
+                  Text(widget.name,
                     style: TextStyle(
-                      fontSize: 35,
+                      fontSize: 30,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -41,15 +44,15 @@ class _PerfilContactoState extends State<PerfilContacto> {
             Padding(
               padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
               child: ListTile(
-                title: Text(nroTelefono,
+                title: Text(widget.phone,
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 20,
                     color: Colors.red.shade300
                   ),
                 ),
                 subtitle: Text("Celular",
                   style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 15,
                     color: Colors.red.shade200,
                   ),
                 ),
@@ -57,21 +60,21 @@ class _PerfilContactoState extends State<PerfilContacto> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Divider(thickness: 2, color: Colors.red.shade300,),
+              child: Divider(thickness: 1.5, color: Colors.red.shade300,),
             ),
             //Correo
             Padding(
-              padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
+              padding: const EdgeInsets.only(top: 10, right: 20, left: 20),
               child: ListTile(
-                title: Text(correo,
+                title: Text(widget.mail,
                   style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 20,
                       color: Colors.red.shade300
                   ),
                 ),
                 subtitle: Text("Correo",
                   style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 15,
                     color: Colors.red.shade200,
                   ),
                 ),
@@ -79,64 +82,42 @@ class _PerfilContactoState extends State<PerfilContacto> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Divider(thickness: 2, color: Colors.red.shade300,),
+              child: Divider(thickness: 1.5, color: Colors.red.shade300,),
             ),
-            Expanded(child: Container()),
-            Container(
-              height: 80,
-              color: Colors.red,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.favorite, color: Colors.red.shade100,),
-                        iconSize: 35,
-                        onPressed: (){},
-                        padding: EdgeInsets.all(0),
-                      ),
-                      Text("Favoritos",
-                        style: TextStyle(color: Colors.red.shade200),
-                      )
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.edit, color: Colors.red.shade100,),
-                        iconSize: 35,
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>EditContactPage()));
-                        },
-                        padding: EdgeInsets.all(0),
-                      ),
-                      Text("Editar",
-                        style: TextStyle(color: Colors.red.shade200),
-                      )
-                    ],
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.delete, color: Colors.red.shade100,),
-                        iconSize: 35,
-                        onPressed: (){},
-                        padding: EdgeInsets.all(0),
-                      ),
-                      Text("Eliminar",
-                        style: TextStyle(color: Colors.red.shade200),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            )
           ],
-        )
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.red,
+        unselectedItemColor: Colors.grey.shade300,
+        fixedColor: Colors.grey.shade300,
+        selectedLabelStyle: TextStyle(fontSize: 14),
+        unselectedLabelStyle: TextStyle(fontSize: 14),
+        items: [
+          BottomNavigationBarItem(
+            label: "Favorito",
+            icon: IconButton(
+              icon: Icon(Icons.favorite, size: 30,),
+              onPressed: (){},
+            ),
+          ),
+          BottomNavigationBarItem(
+            label: "Editar",
+            icon: IconButton(
+              icon: Icon(Icons.edit, size: 30,),
+              onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>EditContactPage()));
+              },
+            ),
+          ),
+          BottomNavigationBarItem(
+            label: "Eliminar",
+            icon: IconButton(
+              icon: Icon(Icons.delete, size: 30,),
+              onPressed: (){},
+            ),
+          ),
+        ],
       ),
     );
   }

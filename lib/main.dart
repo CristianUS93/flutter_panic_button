@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_panic_button/login.dart';
+import 'package:flutter_panic_button/pages/login_page.dart';
 
 void main() {
   runApp(MyApp());
