@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_panic_button/menu-models/burger_menu_model.dart';
-import 'package:flutter_panic_button/menu-models/contactos_model.dart';
-import 'package:flutter_panic_button/menu-models/cronometro_model.dart';
-import 'package:flutter_panic_button/menu-models/dependencias_model.dart';
-import 'package:flutter_panic_button/menu-models/home_model.dart';
 import 'package:flutter_panic_button/utils/all_permission_utils.dart';
+
+import 'package:flutter_panic_button/menu-bottom-bar/burger_menu_page.dart';
+import 'package:flutter_panic_button/menu-bottom-bar/home_page.dart';
+import 'package:flutter_panic_button/menu-bottom-bar/contactos_page.dart';
+import 'package:flutter_panic_button/menu-bottom-bar/dependencias_page.dart';
+import 'package:flutter_panic_button/menu-bottom-bar/cronometro_page.dart';
+
 
 class HomePage extends StatefulWidget {
 

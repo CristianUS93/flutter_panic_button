@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_panic_button/utils/textfield_utils.dart';
+import 'package:contacts_service/contacts_service.dart';
+import 'package:flutter_panic_button/pages/contactos/perfil_contacto.dart';
 
 class AddContactPage extends StatefulWidget {
   @override
@@ -7,76 +8,93 @@ class AddContactPage extends StatefulWidget {
 }
 
 class _AddContactPageState extends State<AddContactPage> {
+  List<Contact> listContact = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getContacts();
+  }
+
+  getContacts()async{
+    List<Contact> contacts = (await ContactsService.getContacts(withThumbnails: false)).toList();
+    setState(() {
+      listContact = contacts;
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    getContacts();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.cancel,size: 30.0, color: Colors.white,),
-          onPressed: (){
-            Navigator.pop(context);
-          },
-        ),
-        title: Text("Agregar Contacto",),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.check, size: 30, color: Colors.white,),
-            onPressed: (){},
-          ),
-        ],
+        title: Text("Seleccionar contacto"),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 120),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      color: Colors.grey.shade300,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(height: 30,),
-                          FieldRegistro("Nombre", Icons.person),
-                          SizedBox(height: 10.0,),
-                          FieldRegistro("Correo", Icons.mail),
-                          SizedBox(height: 10.0,),
-                          FieldRegistro("Nro. Celular", Icons.phone),
-                        ],
+        child: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Column(
+            children: [
+              Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Contactos",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.red,
                       ),
                     ),
-                  ),
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 15),
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey.shade300,
+                      ),
+                      child: TextField(
+                        cursorColor: Colors.grey,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            icon: Icon(Icons.search, size: 30, color: Colors.grey,),
+                            hintText: "Buscar",
+                            hintStyle: TextStyle(color: Colors.red.shade200)
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Positioned(
-                  top: 70,
-                  left: 70,
-                  child: CircleAvatar(
-                    child: Text("C", style: TextStyle(fontSize: 40),),
-                    radius: 50,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 30.0,),
-            Container(
-              height: 150.0,
-              padding: EdgeInsets.all(20),
-              color: Colors.red,
-              child: Text("Registra solo a las personas de tu entera confianza y que sepan que serán notificados, para cualquier emergencia.",
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 15,
-                ),
-                textAlign: TextAlign.justify,
               ),
-            ),
-          ],
+
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: listContact.length,
+                itemBuilder: (BuildContext context, int index){
+                  Contact contact = listContact.elementAt(index);
+                  return ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text(contact.displayName.isEmpty ? "Sin nombre" : contact.displayName),
+                    subtitle: Text(contact.phones.isEmpty ? "Sin nro.Telefono" : contact.phones.elementAt(0).value),
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PerfilContacto(
+                          name: contact.displayName.isEmpty ? "Sin nombre" : contact.displayName,
+                          phone: contact.phones.isEmpty ? "Sin nro. Teléfono" : contact.phones.elementAt(0).value ?? "Sin número",
+                          mail: contact.emails.isEmpty ? "Sin e-mail" : contact.emails.elementAt(0).value
+                      )));
+                    },
+                  );
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

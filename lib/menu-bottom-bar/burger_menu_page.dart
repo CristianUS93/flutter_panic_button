@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_panic_button/pages/login_page.dart';
-import 'package:flutter_panic_button/menu-models/cronometro_model.dart';
-import 'package:flutter_panic_button/menu-models/dependencias_model.dart';
 import 'package:flutter_panic_button/pages/configuracion_page.dart';
 import 'package:flutter_panic_button/pages/info_page.dart';
 import 'package:flutter_panic_button/pages/lugares_frecuentes_page.dart';
@@ -31,8 +30,6 @@ class MenuBurger extends StatelessWidget {
               )),
           MenuButton(icon: Icons.person, name: "Mi Perfil", pageRoute: MiPerfilPage(),),
           MenuButton(icon: Icons.place_sharp, name: "Lugares Frecuentes", pageRoute: LugaresFrecuentesPage(),),
-          MenuButton(icon: Icons.timer, name: "Cronómetro",),
-          MenuButton(icon: Icons.security, name: "Dependencias",),
           Divider(thickness: 1.5,),
           MenuButton(icon: Icons.settings, name: "Configuración", pageRoute: ConfiguracionPage(),),
           MenuButton(icon: Icons.info_outline, name: "Información", pageRoute: InfoPage(),),
