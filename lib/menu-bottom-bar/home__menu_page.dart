@@ -33,7 +33,8 @@ class _HomeModelState extends State<HomeModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: currentPosition == null ? Center(child: CircularProgressIndicator(backgroundColor: Colors.white,)) :
+      SingleChildScrollView(
         child: Column(
           children: [
             Padding(

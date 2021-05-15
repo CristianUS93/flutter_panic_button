@@ -3,6 +3,10 @@
    <application
         android:label="flutter_panic_button"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBJKt2N1qc4x8ymvoSZRLZ-gX7VqA46odM"/>
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

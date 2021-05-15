@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
 
 import 'package:flutter_panic_button/pages/contactos/agregar_contacto.dart';
-import 'package:flutter_panic_button/pages/contactos/perfil_contacto.dart';
+
 
 class ContactosModel extends StatefulWidget {
   @override
@@ -82,13 +82,7 @@ class _ContactosModelState extends State<ContactosModel> {
                           leading: Icon(Icons.person),
                           title: Text(contact.displayName.isEmpty ? "Sin nombre" : contact.displayName),
                           subtitle: Text(contact.phones.isEmpty ? "Sin nro.Telefono" : contact.phones.elementAt(0).value),
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => PerfilContacto(
-                                name: contact.displayName.isEmpty ? "Sin nombre" : contact.displayName,
-                                phone: contact.phones.isEmpty ? "Sin nro. Teléfono" : contact.phones.elementAt(0).value ?? "Sin número",
-                                mail: contact.emails.isEmpty ? "Sin e-mail" : contact.emails.elementAt(0).value
-                            )));
-                          },
+                          onTap: () {},
                         );
                       },
                     )

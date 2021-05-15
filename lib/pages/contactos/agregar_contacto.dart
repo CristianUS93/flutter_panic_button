@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:flutter_panic_button/pages/contactos/perfil_contacto.dart';
 
 class AddContactPage extends StatefulWidget {
   @override
@@ -8,94 +8,126 @@ class AddContactPage extends StatefulWidget {
 }
 
 class _AddContactPageState extends State<AddContactPage> {
+  TextEditingController searchController = TextEditingController();
   List<Contact> listContact = [];
+  List<Contact> listFilter = [];
+  List<Contact> safeContactsList = [];
+  bool loadComplete;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getContacts();
-  }
-
-  getContacts()async{
-    List<Contact> contacts = (await ContactsService.getContacts(withThumbnails: false)).toList();
-    setState(() {
-      listContact = contacts;
+    searchController.addListener(() {
+      contactsFilter();
     });
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    getContacts();
+  contactsFilter() {
+    List<Contact> _contacts = [];
+    _contacts.addAll(listContact);
+    if(searchController.text.isNotEmpty){
+      _contacts.retainWhere((contact){
+        String searchLetter = searchController.text.toLowerCase();
+        String nameContact = contact.displayName.toLowerCase();
+        return nameContact.contains(searchLetter);
+      });
+      setState(() {
+        listFilter = _contacts;
+      });
+    }
+  }
+
+  getContacts()async{
+    await ContactsService.getContacts(withThumbnails: false).then((value){
+      listContact = value.toList();
+      loadComplete = true;
+      setState(() {});
+    }).catchError((error)=>print(error));
+  }
+
+  addSafeContacts(Contact _contact){
+    safeContactsList.add(_contact);
+    setState(() {});
+    print(safeContactsList);
   }
 
   @override
   Widget build(BuildContext context) {
+    bool isSearching = searchController.text.isNotEmpty;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Seleccionar contacto"),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Column(
-            children: [
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Contactos",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.red,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 15),
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.grey.shade300,
-                      ),
-                      child: TextField(
-                        cursorColor: Colors.grey,
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            icon: Icon(Icons.search, size: 30, color: Colors.grey,),
-                            hintText: "Buscar",
-                            hintStyle: TextStyle(color: Colors.red.shade200)
-                        ),
-                      ),
-                    ),
-                  ],
+        automaticallyImplyLeading: false,
+        toolbarHeight: 120,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.only(bottom: 10),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back,),
+                    onPressed: (){Navigator.pop(context);},
+                  ),
+                  Text("Seleccionar contacto"),
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: TextField(
+                controller: searchController,
+                decoration: InputDecoration(
+                  hintText: "Buscar contacto",
+                  hintStyle: TextStyle(color: Colors.grey,),
+                  border: InputBorder.none,
+                  suffixIcon: Icon(Icons.search),
                 ),
               ),
-
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: listContact.length,
-                itemBuilder: (BuildContext context, int index){
-                  Contact contact = listContact.elementAt(index);
-                  return ListTile(
-                    leading: Icon(Icons.person),
-                    title: Text(contact.displayName.isEmpty ? "Sin nombre" : contact.displayName),
-                    subtitle: Text(contact.phones.isEmpty ? "Sin nro.Telefono" : contact.phones.elementAt(0).value),
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PerfilContacto(
-                          name: contact.displayName.isEmpty ? "Sin nombre" : contact.displayName,
-                          phone: contact.phones.isEmpty ? "Sin nro. Teléfono" : contact.phones.elementAt(0).value ?? "Sin número",
-                          mail: contact.emails.isEmpty ? "Sin e-mail" : contact.emails.elementAt(0).value
-                      )));
-                    },
-                  );
-                },
-              )
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
+      body: (loadComplete == null || loadComplete == false) ? Center(child: CircularProgressIndicator(),) :
+      Stack(
+        children: [
+          ListView.builder(
+            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+            shrinkWrap: true,
+            itemCount: isSearching == true ? listFilter.length : listContact.length,
+            itemBuilder: (BuildContext context, int index){
+              Contact contact = isSearching == true ? listFilter.elementAt(index) : listContact.elementAt(index);
+              return Card(
+                child: ListTile(
+                  leading: CircleAvatar(child: Text(contact.initials()),),
+                  title: Text(contact.displayName.isEmpty ? "Sin nombre" : contact.displayName),
+                  subtitle: Text(contact.phones.isEmpty ? "Sin nro.Telefono" : contact.phones.elementAt(0).value),
+                  trailing:
+                  IconButton(
+                    onPressed: (){
+                      addSafeContacts(contact);
+                    },
+                    icon: Icon(Icons.add_circle),
+                  ),
+                  onTap: ()async {
+                    await ContactsService.openExistingContact(contact).then((value){
+                      setState(() {
+                          contact = value;
+                          getContacts();
+                      });
+                    });
+                  },
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
