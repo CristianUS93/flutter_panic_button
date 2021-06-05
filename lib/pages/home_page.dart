@@ -7,12 +7,14 @@ import 'package:flutter_panic_button/pages/main_menu/cronometro_page.dart';
 import 'package:flutter_panic_button/pages/main_menu/dependencias_page.dart';
 import 'package:flutter_panic_button/provider/provider_list_contact.dart';
 import 'package:flutter_panic_button/utils/loading_screem.dart';
+import 'package:flutter_panic_button/utils/preferences_utils.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:sendsms/sendsms.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -26,9 +28,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   bool rastreo = false;
   bool envioSOS = false;
   int tiempoEnvio = 3;
+  int timeLimit = 100;
+  int cantContacts = 3;
 
   PermissionStatus _permissionLocationStatus;
   PermissionStatus _permissionMessageStatus;
+
+  final preferences = new UserPreferences();
 
   @override
   void initState() {
@@ -36,6 +42,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     getPermissions();
+    getTimePreferences();
+  }
+
+  getTimePreferences()async {
+    await SharedPreferences.getInstance();
+    tiempoEnvio = preferences.timeNotification;
+    cantContacts = preferences.cantContacts;
   }
 
   getPermissions() async {
@@ -85,18 +98,17 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     }
   }
 
-  void sendMessage(String numero, String mensaje, int duracionEnMin) async {
-    String phoneNumber = numero;
-    String message = mensaje;
-    int duration = duracionEnMin;
-
+  void sendMessage({String numero, String mensaje, int duracionEnMin}) async {
     _permissionMessageStatus = await Permission.sms.request();
     if (rastreo == true || envioSOS == true) {
       if (await Sendsms.hasPermission()) {
-        for (int i = 0; i < 3; i++) {
-          await Future.delayed(Duration(minutes: duration));
-          Sendsms.onSendSMS(phoneNumber, message + "$i");
+        for (int i = 0; i < timeLimit; i++) {
+          print("Enviando Mensaje....");
+          await Future.delayed(Duration(minutes: duracionEnMin));
+          Sendsms.onSendSMS(numero, mensaje + "$i");
+          print("Mensaje enviado....");
         }
+        print("Se dejaron de enviar mensajes");
       }
     }
   }
@@ -136,7 +148,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   SafeArea buildBodyWidget(BuildContext context) {
     var listContactProvider = Provider.of<ListContactProvider>(context);
-
     return SafeArea(
       child: Stack(
         children: [
@@ -153,15 +164,27 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                           height: 50,
                         ),
                         ContactsSafetyContainer(
-                            listContact: listContactProvider.listContacts,
-                            tiempoEnvio: tiempoEnvio),
+                          listContact: listContactProvider.listContacts,
+                          tiempoEnvio: listContactProvider.timeNotification,
+                          cantContacts: listContactProvider.cantContacts,
+                        ),
                       ],
                     ),
                     BackgroundWidget(),
                     Positioned(
                       bottom: 10,
                       child: MaterialButton(
-                        onPressed: (){ },
+                        onPressed: (){
+                          print("Enviado mensaje Boton de Panico");
+                          setState(() {
+                            timeLimit = 1;
+                          });
+                          sendMessage(
+                            numero: "999662740",
+                            mensaje: "Mensaje de Prueba Botón de Pánico. Proyecto de Programación Codigo-Tecsup",
+                            duracionEnMin: 1,
+                          );
+                        },
                         child: Container(
                           height: 300,
                           child: Image.asset("assets/images/sos_boton_panico.png",
@@ -179,6 +202,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
 
   Padding buildSwitchRastreo(BuildContext context) {
+    var provider = Provider.of<ListContactProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
       child: SwitchListTile(
@@ -188,33 +212,99 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           envioSOS = false;
           getCurrentPosition();
           setState(() {});
-          if (value) {
+          if(provider.listContacts.isEmpty){
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text("¿Desea activar el modo rastreo?"),
+                    title: Text("Agrega contactos a la lista de Contactos de Confianza.",
+                      textAlign: TextAlign.center,
+                    ),
+                    content: Text("La lista de Contactos de Confianza se encuentra vacia.",
+                      textAlign: TextAlign.center,
+                    ),
                     actions: [
                       TextButton(
                         onPressed: () {
-                          for(int i; i < 3; i++){
-                            print("enviando mensaje de rastreo");
-                          }
-                        },
-                        child: Text("Confirmar"),
-                      ),
-                      TextButton(
-                        onPressed: () {
                           setState(() {
-                            value = false;
+                            rastreo = false;
                           });
                           Navigator.pop(context);
                         },
-                        child: Text("Cancelar"),
+                        child: Text("Cerrar",
+                          style: TextStyle(color: Color(0xffb71c1c)),
+                        ),
                       ),
                     ],
                   );
                 });
+          }else {
+            if (rastreo == true) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("¿Desea activar el modo rastreo?"),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            sendMessage(
+                              numero: "999662740",
+                              mensaje: "Mensaje de prueba modo rastro",
+                              duracionEnMin: provider.timeNotification,
+                            );
+                            Navigator.pop(context);
+                          },
+                          child: Text("Confirmar",
+                            style: TextStyle(color: Color(0xffb71c1c)),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              rastreo = false;
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: Text("Cerrar",
+                            style: TextStyle(color: Color(0xffb71c1c)),
+                          ),
+                        ),
+                      ],
+                    );
+                  });
+            }else{
+              return showDialog(
+                context: context,
+                builder: (BuildContext context){
+                  return AlertDialog(
+                    title: Text("¿Desea cancelar el modo rastreo?"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            rastreo = false;
+                            timeLimit = 0;
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: Text("Confirmar",
+                          style: TextStyle(color: Color(0xffb71c1c)),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("Cerrar",
+                          style: TextStyle(color: Color(0xffb71c1c)),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
           }
         },
         title: Text(
@@ -246,14 +336,17 @@ class ContactsSafetyContainer extends StatelessWidget {
     Key key,
     @required List<Contact> listContact,
     @required this.tiempoEnvio,
+    @required this.cantContacts,
   })  : _listContact = listContact,
         super(key: key);
 
   final List<Contact> _listContact;
   final int tiempoEnvio;
+  final int cantContacts;
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 25),
@@ -281,19 +374,46 @@ class ContactsSafetyContainer extends StatelessWidget {
           Text(
             _listContact.isEmpty
                 ? "No se seleccionaron contactos"
-                : "- ${_listContact.elementAt(0).displayName}",
+                :
+            _listContact.length < 1
+                ? ""
+                :  "- ${_listContact.elementAt(0).displayName}",
             style: TextStyle(fontSize: 15),
           ),
           Text(
             _listContact.isEmpty
                 ? ""
-                : "- ${_listContact.elementAt(1).displayName}",
+                :
+            _listContact.length < 2
+                ? ""
+                :  "- ${_listContact.elementAt(1).displayName}",
             style: TextStyle(fontSize: 15),
           ),
           Text(
             _listContact.isEmpty
                 ? ""
-                : "- ${_listContact.elementAt(2).displayName}",
+                :
+            _listContact.length < 3
+                ? ""
+                :  "- ${_listContact.elementAt(2).displayName}",
+            style: TextStyle(fontSize: 15),
+          ),
+          Text(
+            _listContact.isEmpty
+                ? ""
+                :
+            _listContact.length < 4
+                ? ""
+                :  "- ${_listContact.elementAt(3).displayName}",
+            style: TextStyle(fontSize: 15),
+          ),
+          Text(
+            _listContact.isEmpty
+                ? ""
+                :
+            _listContact.length < 5
+                ? ""
+                :  "- ${_listContact.elementAt(4).displayName}",
             style: TextStyle(fontSize: 15),
           ),
           SizedBox(

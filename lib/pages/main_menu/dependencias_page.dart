@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_panic_button/utils/loading_screem.dart';
 
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:geolocator/geolocator.dart';
@@ -11,25 +12,58 @@ class DependenciasModel extends StatefulWidget {
   _DependenciasModelState createState() => _DependenciasModelState();
 }
 
-class _DependenciasModelState extends State<DependenciasModel> {
+class _DependenciasModelState extends State<DependenciasModel> with WidgetsBindingObserver{
   bool location = false;
-  TextEditingController _searchController = TextEditingController();
+  bool searchLoadComplete = false;
+  List<SearchResult> dependencesList = [];
+
+  GooglePlace googlePlace;
+  NearBySearchResponse searchPlaces;
+  DetailsResult detailsResult;
 
   @override
   void initState() {
     // TODO: implement initState
+    WidgetsBinding.instance.addObserver(this);
+    findDependences("comisaria");
     super.initState();
-    findDependences();
   }
 
-  findDependences()async {
+  findDependences(String placeType)async {
+    setState(() {
+      searchLoadComplete = false;
+    });
     Position currentPosition = await Geolocator.getCurrentPosition();
-    GooglePlace googlePlace = GooglePlace("AIzaSyASpL0pGYkcyc1gdUXcH-RA_riadg93w9U");
-    NearBySearchResponse result = await googlePlace.search.getNearBySearch(
+    googlePlace = GooglePlace("AIzaSyASpL0pGYkcyc1gdUXcH-RA_riadg93w9U");
+    searchPlaces = await googlePlace.search.getNearBySearch(
         Location(lat: currentPosition.latitude, lng: currentPosition.longitude), 1500,
-        type: "restaurant", keyword: "restaurant");
-    print(result.status);
-    print(result.results.elementAt(0).name);
+        keyword: placeType,
+        language: "es",
+    ).then((value){
+      setState(() {
+        dependencesList = value.results;
+      });
+      for(SearchResult place in dependencesList){
+        getDetails(place.placeId);
+      }
+    }).whenComplete((){
+      setState(() {searchLoadComplete = true;});
+    }
+    ).catchError((error)=> print(error));
+  }
+
+  void getDetails(String placeId) async {
+    var result = await this.googlePlace.details.get(placeId);
+    if (result != null && result.result != null && mounted) {
+      detailsResult = result.result;
+    }
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
   }
 
   @override
@@ -43,64 +77,74 @@ class _DependenciasModelState extends State<DependenciasModel> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    width: 320,
-                    child: TextFormField(
-                      controller: _searchController,
-                      cursorColor: Colors.black54,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.horizontal(left: Radius.circular(10)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.horizontal(left: Radius.circular(10)),
-                          borderSide: BorderSide(
-                            color: Colors.black54,
-                          ),
-                        ),
-                        hintText: "Escribe el nombre de la cuidad",
+                  ElevatedButton(
+                    onPressed: (){
+                      print("Buscando Hospitales...");
+                      findDependences("hospital");
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black87,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+                    ),
+                    child: Text("Hospitales",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
                       ),
                     ),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.horizontal(right: Radius.circular(10)),
-                      color: Colors.black87,
+                  ElevatedButton(
+                    onPressed: (){
+                      print("Buscando Comisarias...");
+                      findDependences("comisaria");
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black87,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                     ),
-                    child: IconButton(
-                      icon: Icon(Icons.search, color: Colors.white,),
-                      splashRadius: 25,
-                      onPressed: (){
-                        print("botón");
-                        findDependences();
-                      },
+                    child: Text("Comisarias",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: (){
+                      print("Buscando Bomberos...");
+                      findDependences("bomberos");
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black87,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+                    ),
+                    child: Text("Bomberos",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            TextButton(
-              onPressed: (){
-                print("-----------------------");
-                findDependences();
-              },
-              child: Text("boton"),
-            ),
             SizedBox(height: 10,),
-            Text("Lista de Luagres de Ayuda",
+            Text("Lista de Lugares de Ayuda",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20,),
             Expanded(
               flex: 1,
-              child: ListView.builder(
-                itemCount: 8,
+              child: searchLoadComplete == null || searchLoadComplete == false
+                  ? LoadingScreen()
+                  : ListView.builder(
+                itemCount: dependencesList.length,
                 itemBuilder: (context, index){
+                  SearchResult result = dependencesList.elementAt(index);
                   return Container(
                     margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     padding: EdgeInsets.symmetric(vertical: 10),
@@ -109,17 +153,17 @@ class _DependenciasModelState extends State<DependenciasModel> {
                       color: Colors.black87,
                     ),
                     child: ListTile(
-                      title: Text("Dependencia",
+                      title: Text(result.name ?? "Nombre no registrado",
                         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text("Dirección de la dependecia",
+                          Text(detailsResult == null ? "Direccion: No registrada" : detailsResult.formattedAddress,
                             style: TextStyle(color: Colors.grey, fontSize: 13),
                           ),
-                          Text("Nro. Teléfono",
+                          Text(detailsResult == null ? "Teléfono: No regitrado" : detailsResult.formattedPhoneNumber,
                             style: TextStyle(color: Colors.grey, fontSize: 15),
                           ),
                         ],
@@ -131,7 +175,7 @@ class _DependenciasModelState extends State<DependenciasModel> {
                       trailing: IconButton(
                         icon: Icon(Icons.phone_enabled, color: Color(0xff66bb6a),),
                         onPressed: ()async {
-                          const number = '000000000';
+                          String number = detailsResult.formattedPhoneNumber;
                           await FlutterPhoneDirectCaller.callNumber(number);
                         },
                       ),

@@ -91,6 +91,7 @@ class _ContactosModelState extends State<ContactosModel> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(height: 100,),
                     Text("No se seleccionaron contactos"),
                     SizedBox(height: 30,),
                     Text("Presiona el botón para agregar contactos"),

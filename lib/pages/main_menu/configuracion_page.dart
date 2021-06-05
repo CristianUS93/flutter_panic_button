@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_panic_button/provider/provider_list_contact.dart';
 import 'package:flutter_panic_button/utils/preferences_utils.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfiguracionPage extends StatefulWidget {
@@ -50,6 +52,7 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<ListContactProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Configuración"),
@@ -141,6 +144,7 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                     divisions: 5,
                     onChanged: (double value){
                       cantContactos = value.round();
+                      provider.cantContacts = cantContactos;
                       setState(() {});
                       saveValuesPreferences();
                     },
@@ -201,8 +205,7 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                           Checkbox(
                             value: whatsapp,
                             onChanged: (value){
-                              whatsapp = value;
-                              setState(() {});
+                              print("Por el momento esta opción no esta disponible");
                             },
                             activeColor: Color(0xffb71c1c),
                           ),
@@ -256,6 +259,7 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                     divisions: 10,
                     onChanged: (double value){
                       tiempoNotificacion = value.round();
+                      provider.timeNotification = tiempoNotificacion;
                       setState(() {});
                       saveValuesPreferences();
                     },
