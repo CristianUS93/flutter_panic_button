@@ -12,12 +12,13 @@ class MenuButton extends StatelessWidget {
       leading: Icon(
         icon,
         size: 30,
+        color: Colors.white,
       ),
       title: Text(
         name,
         style: TextStyle(
           fontSize: 17,
-          color: Colors.grey,
+          color: Colors.white,
         ),
       ),
       onTap: (){

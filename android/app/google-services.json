@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "900317618460",
+    "project_id": "boton-panico-proyecto",
+    "storage_bucket": "boton-panico-proyecto.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:900317618460:android:4f46098f68daf790d19ad9",
+        "android_client_info": {
+          "package_name": "com.example.flutter_panic_button"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "900317618460-8osv8d61rle2vdite9h4tt149q7cu663.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlsdMzObovEwRwrnvBybZqidVO0hJNJCA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "900317618460-8osv8d61rle2vdite9h4tt149q7cu663.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

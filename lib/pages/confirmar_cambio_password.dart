@@ -1,70 +1,46 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_panic_button/pages/home_page.dart';
-import 'package:flutter_panic_button/utils/preferences_utils.dart';
-import 'package:flutter_panic_button/utils/textfield_utils.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class RegistroPage extends StatefulWidget {
+class ConfimarCambio extends StatefulWidget {
   @override
-  _RegistroPageState createState() => _RegistroPageState();
+  _ConfimarCambioState createState() => _ConfimarCambioState();
 }
 
-class _RegistroPageState extends State<RegistroPage> {
-  final _formKeyRegistro = GlobalKey<FormState>();
+class _ConfimarCambioState extends State<ConfimarCambio> {
+  final _formKeyConfirmarPassword = GlobalKey<FormState>();
 
-  final preferences = new UserPreferences();
-
-  bool ocultarPassword = true;
-  bool ocultarPasswordConfirm = true;
-
-  String _email, _password;
-
-  TextEditingController name = TextEditingController();
-  TextEditingController phone = TextEditingController();
-  TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
 
-  Future<void> createUser()async {
-    try{
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: _email,
-          password: _password,
-      );
-      await SharedPreferences.getInstance();
-      preferences.userName = name.text ?? "Sin nombre";
-      preferences.userEmail = email.text ?? "E-mail del usuario";
-      preferences.userPhone = phone.text ?? "Nro. Teléfono";
-    } on FirebaseAuthException catch (error){
-      if(error.code == "weak-password"){
-        print("La contraseña es muy débil");
-      }else if(error.code == "email-already-in-use"){
-        print("Este e-mail ya tiene una cuenta registrada");
-      }
-    } catch (error){
-      print("Error: $error");
-    }
-  }
+  bool ocultarPassword = true;
+  bool ocultarPasswordConfirm = true;
+  String _password;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Stack(
+          child:Stack(
             children: [
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 100,),
-                    Text("REGISTRO",
+                    SizedBox(height: 80,),
+                    Text("CAMBIO",
                       style: TextStyle(
                         color: Color(0xffd32f2f),
                         fontWeight: FontWeight.bold,
-                        fontSize: 35,
+                        fontSize: 25,
+                      ),
+                    ),
+                    Text("DE CONTRASEÑA",
+                      style: TextStyle(
+                        color: Color(0xffd32f2f),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
                       ),
                     ),
                     Divider(
@@ -72,48 +48,11 @@ class _RegistroPageState extends State<RegistroPage> {
                       color: Color(0xffd32f2f),
                     ),
                     Form(
-                      key: _formKeyRegistro,
+                      key: _formKeyConfirmarPassword,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
                         child: Column(
                           children: [
-                            FieldRegistro("Nombres y Apellidos", Icons.person, name, false),
-                            FieldRegistro("Teléfono", Icons.phone, phone, false,textInputType: TextInputType.phone,),
-                            TextFormField(
-                              controller: email,
-                              cursorColor: Colors.grey,
-                              keyboardType: TextInputType.emailAddress,
-                              decoration: InputDecoration(
-                                icon: Icon(Icons.email, color: Colors.grey,),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                    color: Colors.black45,
-                                  ),
-                                ),
-                                labelText: "E-mail",
-                                labelStyle: TextStyle(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              validator: (String value){
-                                if(value == null || value.isEmpty){
-                                  return "Este campo es obligatorio, ingrese sus datos";
-                                }
-                                if(value.isNotEmpty && !value.contains(RegExp(r"(@.)"))){
-                                  return "Ingrese un e-mail válido";
-                                }
-                                email.text = value;
-                                return null;
-                              },
-                              onChanged: (value){
-                                _email = value;
-                              },
-                            ),
-                            SizedBox(height: 10,),
                             TextFormField(
                               controller: password,
                               obscureText: ocultarPassword,
@@ -214,17 +153,38 @@ class _RegistroPageState extends State<RegistroPage> {
                           ),
                         ),
                         onPressed: (){
-                          if(_formKeyRegistro.currentState.validate()){
-                            createUser().whenComplete((){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
-                            });
+                          if(_formKeyConfirmarPassword.currentState.validate()){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
                           }
                         },
-                        child: Text("REGISTRARME",
+                        child: Text("CONFIRMAR",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15,),
+                    Center(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          primary: Colors.grey,
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                        child: Text("Regresar",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400
                           ),
                         ),
                       ),

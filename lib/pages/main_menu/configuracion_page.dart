@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_panic_button/utils/preferences_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfiguracionPage extends StatefulWidget {
   const ConfiguracionPage({
@@ -16,25 +18,64 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
   bool sms = true;
   bool whatsapp = false;
 
+  final preferences = new UserPreferences();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getValuesPreferences();
+  }
+
+  getValuesPreferences()async {
+    await SharedPreferences.getInstance();
+    camara = (preferences.camera) ?? false;
+    cantContactos = (preferences.cantContacts) ?? 3;
+    tiempoNotificacion = (preferences.timeNotification) ?? 1;
+    setState(() {});
+  }
+
+  saveValuesPreferences()async {
+    await SharedPreferences.getInstance();
+    preferences.camera = camara ?? false;
+    preferences.cantContacts = cantContactos ?? 3;
+    preferences.timeNotification = tiempoNotificacion ?? 1;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Botón de Pánico"),
+        title: Text("Configuración"),
+        titleSpacing: 30,
+        backgroundColor: Color(0xffb71c1c),
+        automaticallyImplyLeading: false,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            child: TextButton(
+              onPressed: (){
+                Navigator.pop(context);
+              },
+              child: Text("Guardar",
+                style: TextStyle(color: Colors.white, fontSize: 15),
+              ),
+            ),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Configuración",
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.red,
-                ),
-              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -45,15 +86,16 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                         fontSize: 18,
                       ),
                     ),
-                    subtitle: camara == false ? Text("Desactivado")
-                        : Text("Activado"),
+                    subtitle: camara == false ? Text("Desactivado", style: TextStyle(fontWeight: FontWeight.w500),)
+                        : Text("Activado", style: TextStyle(color: Color(0xffb71c1c), fontWeight: FontWeight.bold),),
                     value: camara,
-                    onChanged: (value){
+                    onChanged: (bool value){
                       camara = value;
                       setState(() {});
+                      saveValuesPreferences();
                     },
-                    activeColor: Colors.red,
-                    inactiveThumbColor: Colors.red,
+                    activeColor: Color(0xffb71c1c),
+                    inactiveThumbColor: Colors.black54,
                   ),
                   Container(
                     padding: EdgeInsets.all(15),
@@ -66,8 +108,8 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                     ),
                   ),
                   Divider(
-                    thickness: 1.5,
-                    color: Colors.red.shade100,
+                    thickness: 2,
+                    color: Colors.black38,
                   ),
                   Container(
                     padding: EdgeInsets.only(top: 20, right: 10, left: 10),
@@ -93,12 +135,14 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                     value: cantContactos.toDouble(),
                     min: 0,
                     max: 5,
-                    inactiveColor: Colors.grey,
-                    activeColor: Colors.red,
+                    inactiveColor: Colors.black54,
+                    activeColor: Color(0xffb71c1c),
+                    label: "Contactos",
                     divisions: 5,
                     onChanged: (double value){
                       cantContactos = value.round();
                       setState(() {});
+                      saveValuesPreferences();
                     },
                   ),
                   Container(
@@ -112,8 +156,8 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                     ),
                   ),
                   Divider(
-                    thickness: 1.5,
-                    color: Colors.red.shade100,
+                    thickness: 2,
+                    color: Colors.black38,
                   ),
                   Container(
                     padding: EdgeInsets.only(top: 20, right: 10, left: 10),
@@ -147,7 +191,7 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                               sms = value;
                               setState(() {});
                             },
-                            activeColor: Colors.red,
+                            activeColor: Color(0xffb71c1c),
                           ),
                         ],
                       ),
@@ -160,7 +204,7 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                               whatsapp = value;
                               setState(() {});
                             },
-                            activeColor: Colors.red,
+                            activeColor: Color(0xffb71c1c),
                           ),
                         ],
                       ),
@@ -168,8 +212,8 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                   ),
                   SizedBox(height: 5,),
                   Divider(
-                    thickness: 1.5,
-                    color: Colors.red.shade100,
+                    thickness: 2,
+                    color: Colors.black38,
                   ),
                   Container(
                     padding: EdgeInsets.only(top: 20, right: 10, left: 10),
@@ -206,12 +250,14 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                     value: tiempoNotificacion.toDouble(),
                     min: 0,
                     max: 10,
-                    inactiveColor: Colors.grey,
-                    activeColor: Colors.red,
+                    inactiveColor: Colors.black54,
+                    activeColor: Color(0xffb71c1c),
+                    label: "Minutos",
                     divisions: 10,
                     onChanged: (double value){
                       tiempoNotificacion = value.round();
                       setState(() {});
+                      saveValuesPreferences();
                     },
                   ),
                   Container(
@@ -224,30 +270,7 @@ class _ConfiguracionPageState extends State<ConfiguracionPage> {
                       style: TextStyle(color: Colors.grey),
                     ),
                   ),
-                  Divider(
-                    thickness: 1.5,
-                    color: Colors.red.shade100,
-                  ),
                 ],
-              ),
-              Center(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    primary: Colors.red,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  onPressed: (){},
-                  child: Text("GUARDAR",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold
-                    ),
-                  ),
-                ),
               ),
             ],
           ),
